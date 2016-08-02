@@ -14,4 +14,5 @@ func main() {
 func lineBotHandler(w http.ResponseWriter, r *http.Request) {
 	body, _ := ioutil.ReadAll(r.Body)
 	fmt.Printf("%s", body)
+	w.Write([]byte("OK"))
 }
