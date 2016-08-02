@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"io/ioutil"
 	"net/http"
 )
@@ -13,6 +12,11 @@ func main() {
 
 func lineBotHandler(w http.ResponseWriter, r *http.Request) {
 	body, _ := ioutil.ReadAll(r.Body)
-	fmt.Printf("%s", body)
-	w.Write([]byte("OK"))
+
+	err := ioutil.WriteFile("output.txt", body, 0644)
+	if err != nil {
+		panic(err)
+	}
+
+	w.Write([]byte(body))
 }
