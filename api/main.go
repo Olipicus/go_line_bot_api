@@ -6,7 +6,7 @@ import (
 )
 
 func main() {
-	http.HandleFunc("/", lineBotHandler)
+	http.HandleFunc("/line", lineBotHandler)
 	http.ListenAndServe(":9900", nil)
 }
 
