@@ -7,7 +7,7 @@ import (
 
 func main() {
 	http.HandleFunc("/", lineBotHandler)
-	http.ListenAndServe(":80", nil)
+	http.ListenAndServe(":9900", nil)
 }
 
 func lineBotHandler(w http.ResponseWriter, r *http.Request) {
