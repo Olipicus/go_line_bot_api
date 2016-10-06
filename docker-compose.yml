@@ -11,5 +11,9 @@ proxy:
 
 api:
   build: ./api
+  environment:
+    - PORT=9900
+    - CHANNEL_SECRET=3b2f5dbf060805ff75e2347329728994
+    - CHANNEL_TOKEN=/veexkPra3se+hnjfnHdz5gWsQmBHthSr1+5UGvnzf4zV42kgRm0P9z3atXcXXNJH8b6vmHDVCTGqKrpB1DcqcVaDtGHj9cE5acil1LzUWzPJvuH2dQuWFDW8pfDVyCh4m2uZP064ZZlP3Y/33NovAdB04t89/1O/w1cDnyilFU=
   ports:
     - "80:9900"
