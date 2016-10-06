@@ -69,8 +69,7 @@ func (app *LineApp) callbackHandler(w http.ResponseWriter, r *http.Request) {
 					}
 					if _, err := app.bot.ReplyMessage(
 						event.ReplyToken,
-						linebot.NewTextMessage("Display name: "+profile.DisplayName),
-						linebot.NewTextMessage("Status message: "+profile.StatusMessage),
+						linebot.NewTextMessage("สวัสดีคุณ "+profile.DisplayName+" ไอดีของคุณคือ "+profile.UserID+" รูปโปรไฟล์ชองคุณอยู่ที่ "+profile.PicutureURL),
 					).Do(); err != nil {
 						log.Fatal(err)
 					}
