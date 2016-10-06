@@ -1,6 +1,7 @@
 package main
 
 import (
+	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
@@ -36,9 +37,12 @@ func main() {
 
 	http.HandleFunc("/linebot", app.callbackHandler)
 	http.ListenAndServe(":"+os.Getenv("PORT"), nil)
+	log.Println("Server is Running...")
 }
 
 func (app *LineApp) callbackHandler(w http.ResponseWriter, r *http.Request) {
+	body, err := ioutil.ReadAll(r.Body)
+	log.Println(string(body))
 	events, err := app.bot.ParseRequest(r)
 	if err != nil {
 		if err == linebot.ErrInvalidSignature {
