@@ -29,6 +29,9 @@ func NewLineApp(channelSecret, channelToken string) (*LineApp, error) {
 }
 
 func main() {
+	log.Println("Channel Secret : " + os.Getenv("CHANNEL_SECRET"))
+	log.Println("Channel Token : " + os.Getenv("CHANNEL_TOKEN"))
+
 	app, err := NewLineApp(os.Getenv("CHANNEL_SECRET"), os.Getenv("CHANNEL_TOKEN"))
 
 	if err != nil {
@@ -48,6 +51,7 @@ func (app *LineApp) callbackHandler(w http.ResponseWriter, r *http.Request) {
 		if err == linebot.ErrInvalidSignature {
 			w.WriteHeader(400)
 			log.Println("Invalid Signature")
+			log.Println("X-Line-Signature: " + r.Header.Get("X-Line-Signature"))
 		} else {
 			w.WriteHeader(500)
 			log.Println("Unknow error")
