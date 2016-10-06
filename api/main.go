@@ -47,8 +47,10 @@ func (app *LineApp) callbackHandler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		if err == linebot.ErrInvalidSignature {
 			w.WriteHeader(400)
+			log.Println("Invalid Signature")
 		} else {
 			w.WriteHeader(500)
+			log.Println("Unknow error")
 		}
 		return
 	}
