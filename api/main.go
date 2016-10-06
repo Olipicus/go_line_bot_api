@@ -1,10 +1,6 @@
 package main
 
 import (
-	"crypto/hmac"
-	"crypto/sha256"
-	"encoding/base64"
-	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
@@ -47,25 +43,10 @@ func main() {
 }
 
 func (app *LineApp) callbackHandler(w http.ResponseWriter, r *http.Request) {
-	body, err := ioutil.ReadAll(r.Body)
-	log.Println(string(body))
 	events, err := app.bot.ParseRequest(r)
 	if err != nil {
 		if err == linebot.ErrInvalidSignature {
 			w.WriteHeader(400)
-
-			decoded, err := base64.StdEncoding.DecodeString(r.Header.Get("X-Line-Signature"))
-			if err != nil {
-				log.Println("Decode Error")
-			}
-			hash := hmac.New(sha256.New, []byte(os.Getenv("CHANNEL_SECRET")))
-			hash.Write(body)
-
-			log.Printf("Decoded : %v", decoded)
-			log.Printf("Hash : %v", hash)
-			log.Printf("Hash Sum : %v", hash.Sum(nil))
-			log.Printf("Hmac Equal : %v", hmac.Equal(decoded, hash.Sum(nil)))
-
 			log.Println("Invalid Signature")
 			log.Println("X-Line-Signature: " + r.Header.Get("X-Line-Signature"))
 		} else {
