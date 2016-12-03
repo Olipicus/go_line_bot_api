@@ -57,25 +57,12 @@ func (app *LineApp) callbackHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	log.Printf("Got events %v", events)
-	linebot.NewTextMessage("Hi")
-
 	for _, event := range events {
 		if event.Type == linebot.EventTypeMessage {
-			switch event.Message.(type) {
+			switch message := event.Message.(type) {
 			case *linebot.TextMessage:
-				if event.Source.UserID != "" {
-					profile, err := app.bot.GetProfile(event.Source.UserID).Do()
-					if err != nil {
-						app.replyText(event.ReplyToken, err.Error())
-					}
-					if _, err := app.bot.ReplyMessage(
-						event.ReplyToken,
-						linebot.NewTextMessage("สวัสดีคุณ "+profile.DisplayName),
-					).Do(); err != nil {
-						log.Fatal(err)
-					}
-				} else {
-					app.replyText(event.ReplyToken, "Bot can't use profile API without user ID")
+				if _, err = app.bot.ReplyMessage(event.ReplyToken, linebot.NewTextMessage(message.Text)).Do(); err != nil {
+					log.Print(err)
 				}
 			}
 		}
