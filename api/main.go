@@ -61,7 +61,13 @@ func (app *LineApp) callbackHandler(w http.ResponseWriter, r *http.Request) {
 		if event.Type == linebot.EventTypeMessage {
 			switch message := event.Message.(type) {
 			case *linebot.TextMessage:
-				if _, err = app.bot.ReplyMessage(event.ReplyToken, linebot.NewTextMessage(message.Text)).Do(); err != nil {
+				profile, err := app.bot.GetProfile(event.Source.UserID).Do()
+				if err != nil {
+					app.replyText(event.ReplyToken, err.Error())
+				}
+				if _, err = app.bot.ReplyMessage(
+					event.ReplyToken,
+					linebot.NewTextMessage("สวัสดีคุณ "+profile.DisplayName+"คุณบอกว่า"+message.Text)).Do(); err != nil {
 					log.Print(err)
 				}
 			}
