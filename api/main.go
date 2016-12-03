@@ -57,6 +57,7 @@ func (app *LineApp) callbackHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	log.Printf("Got events %v", events)
+	linebot.NewTextMessage("Hi")
 
 	for _, event := range events {
 		if event.Type == linebot.EventTypeMessage {
